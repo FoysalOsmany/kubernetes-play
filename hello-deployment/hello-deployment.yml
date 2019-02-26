@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+
+kind: Deployment
+
+metadata:
+  name: hello-deployment
+  labels:
+    app: hello-deployment
+
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: hello-dapp
+  template:
+    metadata:
+      labels:
+        app: hello-dapp
+    spec:
+      containers:
+      - name: nginx-container
+        image: nginx
+        ports:
+        - containerPort: 80
+
