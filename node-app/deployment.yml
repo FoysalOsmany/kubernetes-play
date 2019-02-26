@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+
+kind: Deployment
+
+metadata:
+  name: node-deployment
+  labels:
+    app: node-deployment
+
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: node-app
+  template:
+    metadata:
+      labels:
+        app: node-app
+    spec:
+      containers:
+      - name: node-container
+        image: node:10-alpine
+        ports:
+        - containerPort: 4444
+        volumeMounts:
+        - mountPath: /node-app
+          name: node-app-volume
+        command: ["/bin/sh", "-c"]
+        args: ["npm install && node /node-app/server.js"]
+      restartPolicy: Always
+
+      volumes:
+      - name: node-app-volume
+        hostPath:
+          path: /Users/FoysalOsmany/Work/Countly/Dev/countly-stream/kubernetes/node-app
+          type: Directory
